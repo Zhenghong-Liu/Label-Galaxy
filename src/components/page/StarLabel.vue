@@ -680,7 +680,7 @@
 	}
 	
 	.draw-btn-group {
-		// width: 1270px;
+		/*// width: 1270px;*/
 		margin-top: 10px;
 		display: flex;
 		align-items: center;
