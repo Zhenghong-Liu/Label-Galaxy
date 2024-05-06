@@ -1,0 +1,32 @@
+[
+	{
+		"title":"星系标注",
+		"path": "./icons/Star",
+		"router": "/starlabel"
+	},
+	{
+		"title":"超新星标注",
+		"path": "./icons/SuperNova",
+		"router": "/sdhfog"
+	},
+	{
+		"title":"变星标注",
+		"path": "./icons/Variable",
+		"router": "@/components/page/StarLabel"
+	},
+	{
+		"title":"行星猎人",
+		"path": "./icons/Exoplanet",
+		"router": "@/components/page/StarLabel"
+	},
+	{
+		"title":"FITS在线",
+		"path": "./icons/FitsOnline",
+		"router": "/fitsreader"
+	},
+	{
+		"title":"自定义标注",
+		"path": "./icons/Customize",
+		"router": "/customize"
+	}
+]
