@@ -1,13 +1,12 @@
 <template>
 	<div class="">
 		<!--这里是自定义页面-->
-		<p class="token">total token : {{token}}</p>
 		<div class="textarea-container">
 			<textarea class="form-control custom-textarea" v-model="message"></textarea>
+			<p class="token">total token : {{token}}</p>
+			<el-button type="success" class="button" @click="UpdateFromAPI" :loading="loading">发送</el-button>
 		</div>
 
-		<!--<button @click="hhh">发送</button>-->
-		<el-button type="success" class="button" @click="UpdateFromAPI" :loading="loading">发送</el-button>
 		<MarkDown :markdown="result"></MarkDown>
 	</div>
 </template>
@@ -109,17 +108,20 @@
 	
 	.button{
 		position: absolute;
-		
-		top: 160px;
-		right: 270px;
+		/*top: 160px;
+		right: 270px;*/
+		bottom: 30px;
+		right: 10px;
 	}
 	
 	.token{
 		position: absolute;
-		top: 172px;
-		right: 380px;
-		color: black;
-		font-size: 10px;
+		/*top: 172px;
+		right: 380px;*/
+		bottom: 15px;
+		right: 110px;
+		color: #C3C3C3;
+		font-size: 15px;
 		z-index: 3;
 	}
 </style>
