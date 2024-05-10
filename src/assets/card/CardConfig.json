@@ -15,9 +15,9 @@
 		"router": "@/components/page/StarLabel"
 	},
 	{
-		"title":"行星猎人",
+		"title":"字符整理",
 		"path": "./icons/Exoplanet",
-		"router": "@/components/page/StarLabel"
+		"router": "/character"
 	},
 	{
 		"title":"FITS在线",
@@ -25,7 +25,7 @@
 		"router": "/fitsreader"
 	},
 	{
-		"title":"自定义标注",
+		"title":"代码生成",
 		"path": "./icons/Customize",
 		"router": "/customize"
 	}

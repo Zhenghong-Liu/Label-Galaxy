@@ -5,6 +5,7 @@ import CardLayout from '@/components/CardLayout'
 import StarLabel from '@/components/page/StarLabel'
 import Customize from '@/components/page/Customize'
 import FitsReader from '@/components/page/FitsReader'
+import Character from '@/components/page/Character'
 import Error from '@/components/404'
 
 
@@ -41,6 +42,11 @@ export default new Router({
     	path: '/fitsreader',
     	name: FitsReader,
     	component: FitsReader
+    },
+    {
+    	path: '/character',
+    	name: Character,
+    	component: Character
     },
     {
     	path: '*',

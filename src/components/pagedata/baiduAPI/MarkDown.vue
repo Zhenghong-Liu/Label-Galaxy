@@ -6,6 +6,7 @@
 	import markdownIt from 'markdown-it'
 	import 'markdown-it-highlightjs' // markdown-it插件，用于与highlight.js集成  
 	import 'highlight.js/styles/default.css' // 引入highlight.js的默认样式  
+	import mathjax from 'markdown-it-mathjax3';
 
 	export default {
 		props: {
@@ -37,17 +38,19 @@
 					.use(require('markdown-it-highlightjs'), {
 						// 传递给highlight.js的选项  
 						// 例如，你可以在这里指定要加载的语言  
-						// languages: ['javascript', 'python']  
+//						languages: ['javascript', 'python']  
 					})
+				
+				md.use(mathjax)
 
 				this.renderedMarkdown = md.render(markdownText)
 
 				// 手动调用highlightBlock来高亮代码块  
 				// 这通常是在markdown-it-highlightjs插件内部完成的，但如果你需要更细粒度的控制，可以手动调用  
 				// 注意：这通常不是必要的，除非你有特殊需求  
-				// document.querySelectorAll('pre code').forEach((block) => {  
-				//   hljs.highlightBlock(block)  
-				// })  
+//				 document.querySelectorAll('pre code').forEach((block) => {  
+//				   hljs.highlightBlock(block)  
+//				 })  
 			}
 		}
 	}

@@ -57,7 +57,7 @@
 	  font-display: swap;
 	}*/
 	@font-face { 
-		font-family: "中国风";
+		font-family: "calligraphy";
 		/*src: url(../assets/font/chinese/chinese.font.ttf);*/
 		src: url(../assets/font/almm/AlimamaDongFangDaKai-Regular.ttf);
 		/*src: url(../assets/font/pRAV9S9rN78N/cbpO6bHD763b.woff2);*/
@@ -99,7 +99,7 @@
         letter-spacing: 10px;
         color: black;
         /*font-family: "阿里妈妈东方大楷 Regular" !important;*/
-        font-family: "中国风";
+        font-family: "calligraphy";
     }
     
 </style>
