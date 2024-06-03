@@ -10,7 +10,7 @@
 		"router": "/sdhfog"
 	},
 	{
-		"title":"变星标注",
+		"title":"GMM标注",
 		"path": "./icons/Variable",
 		"router": "@/components/page/StarLabel"
 	},

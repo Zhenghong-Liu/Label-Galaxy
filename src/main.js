@@ -10,6 +10,7 @@ import fabric from 'fabric';
 
 
 
+
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 Vue.component('lottie',lottie);
