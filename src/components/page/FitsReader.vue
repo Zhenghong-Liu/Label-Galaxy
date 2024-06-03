@@ -1,14 +1,16 @@
 <template>
   <div>
-    <input type="file" @change="readFitsFile" />
-    <label for="downsample">Downsampling Factor:</label>
-    <select v-model="downsampleFactor" @change="renderFitsImage">
-      <option value="1">1x</option>
-      <option value="2">2x</option>
-      <option value="4">4x</option>
-      <option value="8">8x</option>
-      <option value="16">16x</option>
-    </select>
+  	<div class="file_wrapper">
+  		<input class="file_class" type="file" @change="readFitsFile" />
+    	<label class="file_class" for="downsample">Downsampling Factor:</label>
+    	<select v-model="downsampleFactor" @change="renderFitsImage">
+	      <option value="1">1x</option>
+	      <option value="2">2x</option>
+	      <option value="4">4x</option>
+	      <option value="8">8x</option>
+	      <option value="16">16x</option>
+	    </select>
+  	</div>
     <canvas ref="canvas" width="800" height="800"></canvas>
   </div>
 </template>
@@ -144,6 +146,14 @@ export default {
 <style scoped>
 canvas {
   border: 1px solid black;
+}
+.file_class{
+	display: inline-block;
+	text-align: center;
+	margin: 10px auto;
+}
+.file_wrapper{
+	display: block;
 }
 </style>
 
