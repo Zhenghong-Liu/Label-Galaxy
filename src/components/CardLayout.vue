@@ -98,7 +98,7 @@
 					{
 						"title":this.upload_file,
 						"path": "./icons/Variable",
-						"router": "@/components/page/NewPage"
+						"router": "/newpage"
 					}
 				)
 			},

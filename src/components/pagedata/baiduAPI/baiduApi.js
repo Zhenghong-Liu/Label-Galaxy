@@ -1,14 +1,15 @@
 const request = require('request')
+const AK = "plRtgxgcnnYMuIhs3M1fiGHA"
+const SK = "IxXBdvVJP5gVGwFWRQVeLNJvibZFpAf2"
 
-async function baidu(context, callback) {
-var options = {
+function baidu(context, callback) {
+    var options = {
         'method': 'POST',
-        'url': 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ernie-3.5-8k-preview?access_token=24.02889ce1c7bf9016e7ffce4b34349124.2592000.1717912348.282335-67911487',
+        'url': 'https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ernie-3.5-8k-0613?access_token=' + '24.4f9d4bec494d6df76ebfde8206e03d10.2592000.1721388611.282335-67911487',
         'headers': {
                 'Content-Type': 'application/json'
         },
         body: JSON.stringify(context)
-
     };
 
     request(options, function (error, response) {

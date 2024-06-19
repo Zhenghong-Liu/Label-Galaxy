@@ -12,7 +12,7 @@
 	{
 		"title":"GMM标注",
 		"path": "./icons/Variable",
-		"router": "@/components/page/StarLabel"
+		"router": "/gmm"
 	},
 	{
 		"title":"字符整理",
