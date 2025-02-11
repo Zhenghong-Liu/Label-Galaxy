@@ -1,6 +1,9 @@
 <template>
 	<div class="game_wrapper">
-		<div class="show">关卡：{{level}}</div>
+		<div class="show">
+		<div >关卡：</div>
+		<input class="input_style" v-model="level" />
+		</div>
 		<!-- 游戏网格 -->
 		<div class="grid-container">
 			<div class="grid" :style="gridVariables">
@@ -16,9 +19,9 @@
 
 			<!-- 操作按钮 -->
 			<div class="controls">
-				<button class="noplay"></button>
+				<button @click="loadLevel()">重置</button>
 				<button @click="changeDirectionTo('up')">上</button>
-				<button class="noplay"></button>
+				<button @click="loadLevel()">跳转</button>
 				<button @click="changeDirectionTo('left')">左</button>
 				<button @click="changeDirectionTo('down')">下</button>
 				<button @click="changeDirectionTo('right')">右</button>
@@ -68,6 +71,14 @@
 				};
 			},
 		},
+		watch: {
+			level(newValue){
+				if (newValue) {
+					this.level = parseInt(newValue);	
+				}
+				
+			}
+		},
 		methods: {
 			isSnake(cell) {
 				return this.snake.some(segment => segment.x === cell.x && segment.y === cell.y);
@@ -110,11 +121,7 @@
 				if(this.snake.length + this.walls.length == this.gridSize_col * this.gridSize_row) {
 					alert("通关啦！！！")
 					this.level += 1
-					this.snake = [{
-						x: 2,
-						y: 2
-					}]
-					this.loadLevel(this.level)
+					this.loadLevel()
 				}
 			},
 			changeDirection(event) {
@@ -143,8 +150,12 @@
 					bottom: prev && prev.y === cell.y + 1 || next && next.y === cell.y + 1,
 				};
 			},
-			loadLevel(level) {
-				const currentLevel = levels.find(l => l.level === level);
+			loadLevel() {
+				this.snake = [{
+						x: 2,
+						y: 2
+					}]
+				const currentLevel = levels.find(l => l.level === this.level);
 				console.log(currentLevel)
 				if(currentLevel) {
 					this.snake[0] = {
@@ -152,11 +163,17 @@
 						y: currentLevel.snakeStart[1]
 					};
 					this.walls = currentLevel.walls;
+					
+					this.gridSize_row = currentLevel.size[0];
+					this.gridSize_col = currentLevel.size[1];
+				}else {
+					this.level = 1
+					this.loadLevel()
 				}
 			}
 		},
 		mounted() {
-			this.loadLevel(this.level);
+			this.loadLevel();
 			window.addEventListener('keydown', this.changeDirection);
 		},
 		beforeDestroy() {
@@ -235,7 +252,15 @@
 	.show {
 		font-weight: bold;
 		font-size: 20px;
+		text-align: center;
 		margin: 0 0 100px 0;
+		display: flex;
+	}
+	
+	.input_style {
+		font-weight: bold;
+		font-size: 20px;
+		display: block;
 	}
 	
 	.controls {
