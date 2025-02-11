@@ -17,7 +17,14 @@
 
 		<!-- 游戏网格 -->
 		<div class="grid" :style="gridVariables">
-			<span v-for="(cell, index) in grid" :key="index" class="cell" :class="{ 'snake-body': isSnake(cell) , 'food' : isFood(cell), 'snake-head': isSnakeHead(cell) }"></span>
+			<span v-for="(cell, index) in grid" :key="index" class="cell" :class="{ 'snake-body': isSnake(cell) , 
+				'food' : isFood(cell), 
+				'snake-head': isSnakeHead(cell) ,
+				'snake-left': getSnakeDirection(cell) ? getSnakeDirection(cell).left : undefined,
+				'snake-right': getSnakeDirection(cell) ? getSnakeDirection(cell).right : undefined,
+				'snake-top': getSnakeDirection(cell) ? getSnakeDirection(cell).top : undefined,
+				'snake-bottom': getSnakeDirection(cell) ? getSnakeDirection(cell).bottom : undefined,
+				}"></span>
 		</div>
 	</div>
 </template>
@@ -38,7 +45,7 @@
 				}],
 				direction: 'right', // 初始方向
 				last_direction: 'right',
-				timeInterval: 500,
+				timeInterval: 300,
 			};
 		},
 		computed: {
@@ -109,19 +116,27 @@
 				if(head.x == this.food[0].x && head.y == this.food[0].y) {
 					this.snake.push(tail);
 					this.food[0] = this.randomPoint()
+
+					// 判断是否通关
+					if(this.snake.length == this.gridSize * this.gridSize - 1) {
+						alert('通关啦！！！！');
+						clearInterval(this.gameLoop);
+					} else {
+						while(this.food[0].x == head.x && this.food[0].y == head.y) {
+							this.food[0] = this.randomPoint()
+						}
+
+					}
 				}
 
 				if(this.isSnake(head)) {
+					this.snake.push(tail); // 保留最后的元素，保证分数正确
 					alert('你咬到了自己，Game Over!');
 					clearInterval(this.gameLoop);
+					return
 				}
 
 				this.snake.unshift(head); // 在头部添加新位置
-
-				if(this.snake.length == this.gridSize * this.gridSize) {
-					alert('通关啦！！！！');
-					clearInterval(this.gameLoop);
-				}
 			},
 			changeDirection(event) {
 				const key = event.key;
@@ -131,6 +146,17 @@
 				if(key === 'ArrowRight' && this.last_direction !== 'left') this.direction = 'right';
 			},
 			reboot() {
+				clearInterval(this.gameLoop);
+				this.snake = [{
+						x: 5,
+						y: 5
+					}], // 蛇的初始位置
+					this.food = [{
+						x: 3,
+						y: 3
+					}],
+					this.direction = 'right';
+				this.last_direction = 'right';
 				window.addEventListener('keydown', this.changeDirection);
 				this.gameLoop = setInterval(this.moveSnake, this.timeInterval); // 每 500ms 移动一次
 
@@ -140,7 +166,21 @@
 					this.direction = 'left';
 					this.last_direction = 'left';
 				}
-			}
+			},
+			getSnakeDirection(cell) {
+				const index = this.snake.findIndex(segment => segment.x === cell.x && segment.y === cell.y);
+				if(index === -1) return null; // 不是蛇身
+
+				const prev = this.snake[index - 1];
+				const next = this.snake[index + 1];
+
+				return {
+					left: prev && prev.x === cell.x - 1 || next && next.x === cell.x - 1,
+					right: prev && prev.x === cell.x + 1 || next && next.x === cell.x + 1,
+					top: prev && prev.y === cell.y - 1 || next && next.y === cell.y - 1,
+					bottom: prev && prev.y === cell.y + 1 || next && next.y === cell.y + 1,
+				};
+			},
 		},
 		mounted() {
 			window.addEventListener('keydown', this.changeDirection);
@@ -177,6 +217,43 @@
 	
 	.snake-body {
 		background-color: green;
+		position: relative;
+	}
+	
+	.snake-body::before,
+	.snake-body::after {
+		content: "";
+		position: absolute;
+		background-color: green;
+	}
+	
+	.snake-left::before,
+	.snake-left::after {
+		width: 2px;
+		height: 100%;
+		left: -2px;
+		top: 0;
+	}
+	
+	.snake-right::before .snake-right::after {
+		width: 2px;
+		height: 100%;
+		right: -2px;
+		top: 0;
+	}
+	
+	.snake-top::before {
+		width: 100%;
+		height: 2px;
+		top: -2px;
+		left: 0;
+	}
+	
+	.snake-bottom::after {
+		width: 100%;
+		height: 2px;
+		bottom: -2px;
+		left: 0;
 	}
 	
 	.food {
