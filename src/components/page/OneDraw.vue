@@ -2,8 +2,9 @@
 	<div class="game_wrapper">
 		<div class="show">关卡：{{level}}</div>
 		<!-- 游戏网格 -->
-		<div class="grid" :style="gridVariables">
-			<span v-for="(cell, index) in grid" :key="index" class="cell" :class="{ 'snake-body': isSnake(cell) , 
+		<div class="grid-container">
+			<div class="grid" :style="gridVariables">
+				<span v-for="(cell, index) in grid" :key="index" class="cell" :class="{ 'snake-body': isSnake(cell) , 
 				'snake-head': isSnakeHead(cell) ,
 				'wall': isWall(cell),
 				'snake-left': getSnakeDirection(cell) ? getSnakeDirection(cell).left : undefined,
@@ -11,7 +12,19 @@
 				'snake-top': getSnakeDirection(cell) ? getSnakeDirection(cell).top : undefined,
 				'snake-bottom': getSnakeDirection(cell) ? getSnakeDirection(cell).bottom : undefined,
 				}"></span>
+			</div>
+
+			<!-- 操作按钮 -->
+			<div class="controls">
+				<button class="noplay"></button>
+				<button @click="changeDirectionTo('up')">上</button>
+				<button class="noplay"></button>
+				<button @click="changeDirectionTo('left')">左</button>
+				<button @click="changeDirectionTo('down')">下</button>
+				<button @click="changeDirectionTo('right')">右</button>
+			</div>
 		</div>
+
 	</div>
 </template>
 
@@ -38,8 +51,8 @@
 			// 计算属性：生成一个 10x10 网格的坐标
 			grid() {
 				let cells = [];
-				for (let y = 0; y < this.gridSize_row; y++) {
-					for (let x = 0; x < this.gridSize_col; x++) {
+				for(let y = 0; y < this.gridSize_row; y++) {
+					for(let x = 0; x < this.gridSize_col; x++) {
 						cells.push({
 							x,
 							y
@@ -69,23 +82,23 @@
 				let head = {
 					...this.snake[0]
 				}; // 复制蛇头
-				if (this.direction === 'up') head.y--;
-				if (this.direction === 'down') head.y++;
-				if (this.direction === 'left') head.x--;
-				if (this.direction === 'right') head.x++;
+				if(this.direction === 'up') head.y--;
+				if(this.direction === 'down') head.y++;
+				if(this.direction === 'left') head.x--;
+				if(this.direction === 'right') head.x++;
 
 				// 边界检测（防止穿墙）
-				if (head.x < 0 || head.x >= this.gridSize_col || head.y < 0 || head.y >= this.gridSize_row) {
+				if(head.x < 0 || head.x >= this.gridSize_col || head.y < 0 || head.y >= this.gridSize_row) {
 					// alert('你撞墙了，Game Over!');
 					return;
 				}
-				
-				if (this.isWall(head)) {
+
+				if(this.isWall(head)) {
 					return
 				}
 
-				if (this.isSnake(head)) {
-					if (head.x == this.snake[1].x && head.y == this.snake[1].y) {
+				if(this.isSnake(head)) {
+					if(head.x == this.snake[1].x && head.y == this.snake[1].y) {
 						this.snake.shift();
 					}
 					// alert('你咬到了自己，Game Over!');
@@ -93,25 +106,32 @@
 				}
 
 				this.snake.unshift(head); // 在头部添加新位置
-				
-				if (this.snake.length + this.walls.length == this.gridSize_col * this.gridSize_row) {
+
+				if(this.snake.length + this.walls.length == this.gridSize_col * this.gridSize_row) {
 					alert("通关啦！！！")
 					this.level += 1
-					this.snake = [{x:2, y:2}]
+					this.snake = [{
+						x: 2,
+						y: 2
+					}]
 					this.loadLevel(this.level)
 				}
 			},
 			changeDirection(event) {
 				const key = event.key;
-				if (key === 'ArrowUp') this.direction = 'up';
-				if (key === 'ArrowDown') this.direction = 'down';
-				if (key === 'ArrowLeft') this.direction = 'left';
-				if (key === 'ArrowRight') this.direction = 'right';
+				if(key === 'ArrowUp') this.direction = 'up';
+				if(key === 'ArrowDown') this.direction = 'down';
+				if(key === 'ArrowLeft') this.direction = 'left';
+				if(key === 'ArrowRight') this.direction = 'right';
+				this.moveSnake();
+			},
+			changeDirectionTo(direction) {
+				this.direction = direction;
 				this.moveSnake();
 			},
 			getSnakeDirection(cell) {
 				const index = this.snake.findIndex(segment => segment.x === cell.x && segment.y === cell.y);
-				if (index === -1) return null; // 不是蛇身
+				if(index === -1) return null; // 不是蛇身
 
 				const prev = this.snake[index - 1];
 				const next = this.snake[index + 1];
@@ -126,8 +146,11 @@
 			loadLevel(level) {
 				const currentLevel = levels.find(l => l.level === level);
 				console.log(currentLevel)
-				if (currentLevel) {
-					this.snake[0] = {x : currentLevel.snakeStart[0], y : currentLevel.snakeStart[1]};
+				if(currentLevel) {
+					this.snake[0] = {
+						x: currentLevel.snakeStart[0],
+						y: currentLevel.snakeStart[1]
+					};
 					this.walls = currentLevel.walls;
 				}
 			}
@@ -149,25 +172,25 @@
 		grid-template-rows: repeat(var(--grid-size-row), 30px);
 		gap: 2px;
 	}
-
+	
 	.cell {
 		width: 30px;
 		height: 30px;
 		background-color: lightgray;
 	}
-
+	
 	.snake-body {
 		background-color: green;
 		position: relative;
 	}
-
+	
 	.snake-body::before,
 	.snake-body::after {
 		content: "";
 		position: absolute;
 		background-color: green;
 	}
-
+	
 	.snake-left::before,
 	.snake-left::after {
 		width: 2px;
@@ -175,28 +198,28 @@
 		left: -2px;
 		top: 0;
 	}
-
+	
 	.snake-right::before .snake-right::after {
 		width: 2px;
 		height: 100%;
 		right: -2px;
 		top: 0;
 	}
-
+	
 	.snake-top::before {
 		width: 100%;
 		height: 2px;
 		top: -2px;
 		left: 0;
 	}
-
+	
 	.snake-bottom::after {
 		width: 100%;
 		height: 2px;
 		bottom: -2px;
 		left: 0;
 	}
-
+	
 	.snake-head {
 		background-color: red;
 	}
@@ -204,7 +227,7 @@
 	.wall {
 		background-color: black;
 	}
-
+	
 	.game_wrapper {
 		display: block;
 	}
@@ -213,5 +236,39 @@
 		font-weight: bold;
 		font-size: 20px;
 		margin: 0 0 100px 0;
+	}
+	
+	.controls {
+		display: grid;
+		grid-template-columns: repeat(3, 60px);
+		/* 2行3列，每个按钮宽度60px */
+		grid-template-rows: repeat(2, 60px);
+		/* 2行布局 */
+		gap: 10px;
+		margin: 20px 0px 0px 100px;
+	}
+	
+	.grid-container {
+		margin:auto 30%;
+		/*border: 1px solid red;*/
+		display:  flex;
+	}
+	
+	button {
+		padding: 10px;
+		margin: 0;
+		cursor: pointer;
+		font-size: 16px;
+	}
+	
+	@media (max-width: 768px) {
+		.grid-container {
+			flex-direction: column;
+			margin: 0px;
+		}
+		
+		.grid {
+			margin: 15%;
+		}
 	}
 </style>
