@@ -6,6 +6,7 @@ import StarLabel from '@/components/page/StarLabel'
 import Customize from '@/components/page/Customize'
 import FitsReader from '@/components/page/FitsReader'
 import NewPage from '@/components/page/NewPage'
+import Snake from '@/components/page/Snake'
 //import GmmLabel from '@/components/page/GMM'
 import GmmLabel from '@/components/page/gmm2/gmm'
 import Character from '@/components/page/Character'
@@ -40,6 +41,11 @@ export default new Router({
     	path: '/customize',
     	name: Customize,
     	component: Customize
+    },
+    {
+    	path: '/snake',
+    	name: Snake,
+    	component: Snake
     },
     {
     	path: '/fitsreader',

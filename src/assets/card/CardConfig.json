@@ -5,9 +5,9 @@
 		"router": "/starlabel"
 	},
 	{
-		"title":"超新星标注",
+		"title":"贪吃蛇",
 		"path": "./icons/SuperNova",
-		"router": "/sdhfog"
+		"router": "/snake"
 	},
 	{
 		"title":"GMM标注",
