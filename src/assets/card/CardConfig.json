@@ -10,6 +10,11 @@
 		"router": "/snake"
 	},
 	{
+		"title":"一笔画",
+		"path": "./icons/OneDraw",
+		"router": "/onedraw"
+	},
+	{
 		"title":"GMM标注",
 		"path": "./icons/Variable",
 		"router": "/gmm"

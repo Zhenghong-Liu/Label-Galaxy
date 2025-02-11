@@ -7,6 +7,7 @@ import Customize from '@/components/page/Customize'
 import FitsReader from '@/components/page/FitsReader'
 import NewPage from '@/components/page/NewPage'
 import Snake from '@/components/page/Snake'
+import OneDraw from '@/components/page/OneDraw'
 //import GmmLabel from '@/components/page/GMM'
 import GmmLabel from '@/components/page/gmm2/gmm'
 import Character from '@/components/page/Character'
@@ -46,6 +47,11 @@ export default new Router({
     	path: '/snake',
     	name: Snake,
     	component: Snake
+    },
+    {
+    	path: '/onedraw',
+    	name: OneDraw,
+    	component: OneDraw
     },
     {
     	path: '/fitsreader',
