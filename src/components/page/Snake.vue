@@ -161,7 +161,7 @@
 	};
 </script>
 
-<style scoped>
+<style>
 	.grid {
 		display: grid;
 		grid-template-columns: repeat(var(--grid-size), 30px);
@@ -208,5 +208,6 @@
 	.input_style {
 		font-weight: bold;
 		font-size: 20px;
+		display: block;
 	}
 </style>
