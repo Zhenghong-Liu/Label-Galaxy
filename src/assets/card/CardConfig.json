@@ -15,6 +15,11 @@
 		"router": "/onedraw"
 	},
 	{
+		"title":"扫雷",
+		"path": "./icons/Bombs",
+		"router": "/Bombs"
+	},
+	{
 		"title":"GMM标注",
 		"path": "./icons/Variable",
 		"router": "/gmm"
