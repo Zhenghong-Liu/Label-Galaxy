@@ -6,6 +6,18 @@
 			<div class="showBomb" v-if="pass_game">"恭喜你🎉；通关啦"</div>
 		</div>
 		
+	  <div class="showBomb_wrapper">
+	    <h3 class="showBomb">请选择游戏难度：</h3>
+	        <input class="input_style" type="radio" value="easy" v-model="difficulty" name="difficulty"/>
+	        <p class="showBomb2">简单</p>
+	        <input class="input_style" type="radio" value="median" v-model="difficulty" name="difficulty"/>
+	        <p class="showBomb2">中等</p>
+	        <input class="input_style" type="radio" value="master" v-model="difficulty" name="difficulty"/>
+	        <p class="showBomb2">大师</p>
+	        <input class="input_style" type="radio" value="ultimate" v-model="difficulty" name="difficulty"/>
+	        <p class="showBomb2">终极</p>
+	  </div>
+		
 		<div class="grid-container">
 			<div class="grid" :style="gridVariables" @contextmenu.prevent="">
 				<span v-for="(cell, index) in cells" :key="index" class="cell" :class="{
@@ -18,10 +30,10 @@
 			</div>
 			<div class="controls">
 				<!-- <p style="font-size: 20px; font-weight: bold;">帮助标注</p> -->
-				<p style="font-size: 20px; font-weight: bold;">帮我标</p>
+				<p style="font-size: 20px; font-weight: bold;">小红帮我标</p>
 				<input class="checkbox" type="checkbox" v-model="isHelpFlag" />
-				<button @click="cleanBlanks">帮我开</button>
-				<button @click="thinkBlocks">帮我想</button>
+				<button @click="cleanBlanks">小红帮我开</button>
+				<button @click="thinkBlocks">小红帮我想</button>
 			</div>
 		</div>
 	</div>
@@ -45,7 +57,8 @@ import { isReactive } from 'vue';
 				pass_game: false,
 				isHelpFlag: false,
 				ans: new Array(12).fill(-1),
-				blank_set: new Set()
+				blank_set: new Set(),
+				difficulty: 'master'
 			};
 		},
 		computed: {
@@ -54,6 +67,38 @@ import { isReactive } from 'vue';
 					'--grid-size-col': this.gridSize_col, // 动态设定列数
 					'--grid-size-row': this.gridSize_row // 动态设定行数
 				};
+			},
+			caculatedNum() {
+				let count = 0;
+				for (let cell of this.cells){
+					count += this.isGuessBomb(cell) + this.isGuessBlank(cell)
+				}
+				
+				return count;
+			}
+		},
+		watch: {
+			difficulty(newVal, oldVal) {
+				let memo = {
+					"easy": [9, 9, 10],
+					"median": [16, 16, 40],
+					"master": [16, 30, 99],
+					"ultimate": [20, 30, 130]
+				}
+				let memo_num = memo[newVal];
+				this.gridSize_row = memo_num[0]
+				this.gridSize_col = memo_num[1]
+				this.total_bombs = memo_num[2]
+				
+				this.prepare();
+				this.generateBombs();
+				this.caculateAround();
+				this.bombs_for_check_pass = this.total_bombs;
+				this.ans = new Array(12).fill(-1);
+				this.first_click = true;
+				this.pass_game = false;
+				this.game_over = false;
+				
 			}
 		},
 		methods: {
@@ -408,7 +453,7 @@ import { isReactive } from 'vue';
 				// 查一下有没有捡漏的。
 				this.findBlanks();
 				
-				alert("我🧐算完啦");
+				alert("我🧐算完啦，算出来"+this.caculatedNum+"个方格。");
 				// console.log(this.ans);
 			},
 			build_map(){
@@ -550,6 +595,10 @@ import { isReactive } from 'vue';
 	
 	.showBomb_wrapper{
 		display: flex;
+		width: 1000px;
+		height: 30px;
+		/*border: 1px solid red;*/
+		margin: 10px 0;
 	}
 	
 	.showBomb {
@@ -557,6 +606,12 @@ import { isReactive } from 'vue';
 		font-weight: bold;
 		margin: 0 100px 0 16px;
 		position: relative;
+	}
+	
+	.showBomb2 {
+		font-size: 20px;
+		font-weight: bold;
+		margin: 0 16px 0 0;
 	}
 	
 	.showBomb::before {
@@ -623,6 +678,7 @@ import { isReactive } from 'vue';
 		margin-top: 20px;
 		text-align: center;
 		display: flex;
+		width: 1000px;
 	}
 	
 	.checkbox{
@@ -630,7 +686,7 @@ import { isReactive } from 'vue';
 		display: block;
 		width: 25px;
 		transition: all 3s ease;
-		margin: 0px 50px 15px 10px;
+		margin: 0px 50px 0px 10px;
 	}
 
 	button {
@@ -638,5 +694,11 @@ import { isReactive } from 'vue';
 		cursor: pointer;
 		font-size: 16px;
 		margin: 0px 50px 0px 0px;
+	}
+	
+	.input_style {
+		font-weight: bold;
+		font-size: 20px;
+		display: block;
 	}
 </style>
